@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 from inicio.models import Pantone
 
-from inicio.forms import CrearPantoneFormulario
+from inicio.forms import CrearPantoneFormulario, BusquedaPantoneFormulario
 
 def inicio (request):
     
@@ -10,14 +10,22 @@ def inicio (request):
 
 def pantones(request):
     
-    color_a_buscar = request.GET.get('color')
+    #v1
+    # color_a_buscar = request.GET.get('color')
     
-    if color_a_buscar:
+    # if color_a_buscar:
+    #     listado_de_pantones = Pantone.objects.filter(color__icontains=color_a_buscar)
+    # else:
+    #     listado_de_pantones = Pantone.objects.all()
+    #v1
+    
+    formulario = BusquedaPantoneFormulario(request.GET)
+    if formulario.is_valid():
+        color_a_buscar = formulario.cleaned_data.get('color')
         listado_de_pantones = Pantone.objects.filter(color__icontains=color_a_buscar)
-    else:
-        listado_de_pantones = Pantone.objects.all()
         
-    return render(request, 'inicio/pantones.html', {'listado_de_pantones': listado_de_pantones})
+    formulario = BusquedaPantoneFormulario()
+    return render(request, 'inicio/pantones.html', {'formulario': formulario, 'listado_de_pantones': listado_de_pantones})
 
 def crear_pantone(request):
     
