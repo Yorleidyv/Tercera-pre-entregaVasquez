@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title_head %}
+<title>Crear Pantones</title>
+{% endblock title_head %}
+
+{% block div_header %}
+Crear Pantone {{pantone.color}}
+{% endblock div_header %}
+
+{% block main %}
+
+<form action="" method="POST">
+        {% csrf_token %}
+        {{formulario}}
+        <input type="submit" value="Crear">
+</form>
+{% endblock main %}

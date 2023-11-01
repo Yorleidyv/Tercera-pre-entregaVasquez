@@ -1,11 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UFT-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-    </head>
-    <body>
-        <h1>Se creo el pantone {{pantone.color}}</h1>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block title_head %}
+<title>Pantones</title>
+{% endblock title_head %}
+
+{% block div_header %}
+Pantones
+{% endblock div_header %}
+
+{% block main %}
+
+<form action="">
+    <input type="text" name="color">
+    <input type="submit" value="Buscar">
+
+</form>
+
+{% if listado_de_pantones %}
+<ul>
+
+    {% for pantone in listado_de_pantones %}
+    <li> {{pantone}}</li>
+    {% endfor%}
+</ul>
+{% else %}
+<p> No se encontraron colores. </p>
+{% endif %}
+
+{% endblock main %}

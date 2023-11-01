@@ -1,17 +1,42 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from inicio.models import Pantone
+
+from inicio.forms import CrearPantoneFormulario
 
 def inicio (request):
     
     return render (request, 'inicio/inicio.html', {})
 
-def pantones (request):
+def pantones(request):
     
-    pantone = Pantone(color='azul', descripcion='azul oscuro', tono=23)
-    pantone.save()
+    color_a_buscar = request.GET.get('color')
     
-    return render (request, 'inicio/pantones.html', {'pantone': pantone})
-    
+    if color_a_buscar:
+        listado_de_pantones = Pantone.objects.filter(color__icontains=color_a_buscar)
+    else:
+        listado_de_pantones = Pantone.objects.all()
+        
+    return render(request, 'inicio/pantones.html', {'listado_de_pantones': listado_de_pantones})
 
-# Create your views here.
+def crear_pantone(request):
+    
+    if request.method == 'POST':
+        formulario = CrearPantoneFormulario(request.POST)
+        if formulario.is_valid():
+            info_limpia = formulario.cleaned_data
+            
+            color = info_limpia.get('color')
+            descripcion = info_limpia.get('descripcion')
+            tono = info_limpia.get('tono')
+            
+            pantone = Pantone(color=color.lower(), descripcion=descripcion, tono=tono)
+            pantone.save()
+            
+            return redirect('pantones')  
+        else:
+            return render(request, 'inicio/crear_pantone.html', {'formulario' : formulario})
+    
+    formulario = CrearPantoneFormulario()
+    return render(request, 'inicio/crear_pantone.html', {'formulario': formulario})
+    
