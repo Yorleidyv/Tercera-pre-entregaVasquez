@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title_head %}
+    <title>Clientes</title>
+{% endblock title_head %}
+
+{% block div_header %}
+    Clientes
+{% endblock div_header %}
+
+{% block main %}
+
+<h2>Buscar Clientes</h2>
+
+<form method="get">
+    {{ formulario.as_p }}
+    <button type="submit">Buscar</button>
+</form>
+
+{% if listado_de_clientes %}
+    <h2>Lista de Clientes</h2>
+    <ul>
+        {% for cliente in listado_de_clientes %}
+            <li>{{ cliente.nombre }} - {{ cliente.email }} - {{ cliente.direccion }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No se encontraron clientes.</p>
+{% endif %}
+
+<a href="{% url 'crear_cliente' %}">Crear Nuevo Cliente</a>
+
+{% endblock main %}

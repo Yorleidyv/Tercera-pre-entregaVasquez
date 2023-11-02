@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title_head %}
+    <title>Crear Cliente</title>
+{% endblock title_head %}
+
+{% block div_header %}
+    Crear Cliente
+{% endblock div_header %}
+
+{% block main %}
+
+<h2>Crear Cliente</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ formulario.as_p }}
+    <button type="submit">Guardar Cliente</button>
+</form>
+
+<a href="{% url 'clientes' %}">Volver a la lista de Clientes</a>
+
+{% endblock main %}

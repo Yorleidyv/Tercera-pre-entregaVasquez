@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title_head %}
+    <title>Pedidos</title>
+{% endblock title_head %}
+
+{% block div_header %}
+    Pedidos
+{% endblock div_header %}
+
+{% block main %}
+
+<h2>Buscar Pedidos</h2>
+
+<form method="get">
+    {{ formulario.as_p }}
+    <button type="submit">Buscar</button>
+</form>
+
+{% if listado_de_pedidos %}
+    <h2>Lista de Pedidos</h2>
+    <ul>
+        {% for pedido in listado_de_pedidos %}
+            <li>ID: {{ pedido.id }} - Cliente: {{ pedido.cliente.nombre }} - Pantone: {{ pedido.pantone.color }} - Cantidad: {{ pedido.cantidad }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No se encontraron pedidos.</p>
+{% endif %}
+
+<a href="{% url 'crear_pedido' %}">Crear Nuevo Pedido</a>
+
+{% endblock main %}
